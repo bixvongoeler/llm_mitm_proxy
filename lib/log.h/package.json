@@ -1,0 +1,23 @@
+{
+    "name": "log.h",
+    "main": "log.h",
+    "version": "0.3.0",
+    "repo": "thlorenz/log.h",
+    "description": "Minimal yet colorful logging lib.",
+    "license": "MIT",
+    "keywords": [
+        "log",
+        "debug",
+        "print",
+        "diagnostics"
+    ],
+    "src": [
+        "log.h"
+    ],
+    "homepage": "https://github.com/thlorenz/log.h",
+    "author": {
+        "name": "Thorsten Lorenz",
+        "email": "thlorenz@gmx.de",
+        "url": "http://thlorenz.com"
+    }
+}

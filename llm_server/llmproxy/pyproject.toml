@@ -1,0 +1,21 @@
+[project]
+name = "llmproxy"
+version = "0.1.0"
+description = "Python client library for the LLMProxy server"
+readme = "README.md"
+authors = [
+    { name = "Abdullah Bin Faisal" },
+    { name = "Bix von Goeler" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.7,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv_build]
+module-root = "src"

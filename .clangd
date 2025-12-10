@@ -1,0 +1,22 @@
+CompileFlags:
+    CompilationDatabase: bin/
+    Add:
+        - -xc
+
+Completion:
+    HeaderInsertion: Never
+
+Documentation:
+    CommentFormat: Doxygen
+
+Diagnostics:
+    UnusedIncludes: None
+
+InlayHints:
+    BlockEnd: false
+    Designators: true
+    Enabled: true
+    ParameterNames: true
+    DeducedTypes: true
+    DefaultArguments: true
+    TypeNameLimit: 0
