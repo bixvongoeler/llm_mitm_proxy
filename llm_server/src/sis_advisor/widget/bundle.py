@@ -16,7 +16,9 @@ def get_widget_bundle() -> str:
         HTML string containing styles, markup, and JavaScript.
     """
     config = get_config()
-    chat_server_url = f"http://{config.chat_server_host}:{config.chat_server_port}"
+    # Always use localhost for browser connections (server binds to 0.0.0.0 but
+    # browsers connect via localhost)
+    chat_server_url = f"http://localhost:{config.chat_server_port}"
 
     return f"""
 <!-- SIS Advisor Chat Widget -->

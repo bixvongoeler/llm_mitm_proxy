@@ -58,26 +58,6 @@ proxy: $(ALL_OBJS)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	@echo "*--------------* build complete *--------------*"
 
-run: clean proxy
-	@echo "${BOLD_DARK}"
-	@echo "      _   - -–—*=—–--— + —--–—=*—–- -    _      ${RESET}${BOLD_DARKER}"
-	@echo "  * -  –  — = *  ${BOLD_TURQ}Running Proxy${RESET}${BOLD_DARKER}  * = —   –  - *  ${BOLD_DARKEST}"
-	@echo "*==—–---–—=*=—=*=—-----------—=*=-—=*=—–---–—==*${RESET}${BOLD_DARKEST1}"
-	@echo " *==—–---–—=*=—=*=—---------—=*=-—=*=—–---–—==*${RESET}${BOLD_DARKEST2}"
-	@echo "   *==—–---–—=*=—=*=—-----—=*=-—=*=—–---–—==*${RESET}${BOLD_DARKEST3}"
-	@echo "      *==—–---–—=*=—=*==*=-—=*=—–---–—==*${RESET}${BOLD_DARKEST4}"
-	@echo "             -–—=*=—=*==*=-—=*=—–-${RESET}"
-
-
-	@./proxy 9999 crt/proxy_ca.crt crt/proxy_ca.key
-	@echo "${BOLD_DARKEST}*==—–---–—=*=—-*=—--–—=*=—–--—=*--—=*=—–---–—==*${BOLD_DARKER}"
-	@echo "   *       -–—=* ${BOLD_VIOL}finished-exec${BOLD_DARKER} *=—–-        *   ${BOLD_DARK}"
-	@echo "        º  - —=*=—--–—=*=—–--—=*=— -  º         ${RESET}"
-
-rebuild-cc: clean
-	@echo "*--------* rebuilding compile_commands *-------*"
-	@bear --output $(OBJ_DIR)/compile_commands.json -- make proxy
-
 # Compile src/*.c files, preserving directory structure
 $(OBJ_DIR)/src/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -98,17 +78,3 @@ clean:
 	@echo "*-------------* cleaning project *-------------*"
 	@rm -rf $(ALL_OBJS) proxy
 	@echo "Deleting: proxy, $(ALL_OBJS)"
-
-test: proxy
-	@echo "*--------------* running tests *--------------*"
-	@./tests/run_tests.sh
-
-# Run the full SIS Advisor demo (proxy + Python servers)
-demo: proxy
-	@echo "*--------------* starting demo *--------------*"
-	@./run_demo.sh
-
-# Build and run the demo
-demo-build:
-	@echo "*--------------* building demo *--------------*"
-	@./run_demo.sh --build
