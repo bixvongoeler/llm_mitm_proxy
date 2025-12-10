@@ -1,6 +1,7 @@
 # LLM MITM Proxy
+*HTTPS proxy that injects an AI chat widget into the Tufts SIS web page*
 
-HTTPS proxy that injects an AI chat widget into the Tufts SIS web page.
+Image available on [Docker Repo](https://hub.docker.com/r/bixvongoeler/llm_mitmproxy_containerized)
 
 ## Run
 
