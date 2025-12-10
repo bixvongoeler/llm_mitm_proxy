@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# IDE and editor files
+.vscode
+.idea
+.zed
+.claude
+
+# Documentation (not needed in container)
+*.md
+!llm_server/context/*.md
+
+# Python artifacts
+__pycache__
+
+# Virtual environments (we create fresh in container)
+.venv
+venv/
+
+# Environment files (passed at runtime, not build time)
+.env
+llm_server/.env
+
+# Build artifacts
+*.o
+proxy
+compile_commands.json
+
+# OS files
+.DS_Store
+
+# Test and development files
+.runtime_pids

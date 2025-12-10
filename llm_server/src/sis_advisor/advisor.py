@@ -10,8 +10,9 @@ import re
 from pathlib import Path
 from typing import Any
 
+import pdfplumber
+
 from bs4 import BeautifulSoup
-from docling.document_converter import DocumentConverter
 
 from llmproxy import LLMProxy
 
@@ -19,7 +20,7 @@ logger = logging.getLogger("sis_advisor")
 
 # Paths to context files
 CONTEXT_DIR = Path(__file__).parent.parent.parent / "context"
-ALL_COURSES_PATH = CONTEXT_DIR / "course_summaries" / "all_courses.md"
+ALL_COURSES_PATH = CONTEXT_DIR / "all_courses.md"
 MAJOR_REQS_PATH = CONTEXT_DIR / "cs_major_reqs.md"
 
 # System prompt for the academic advisor
@@ -182,8 +183,7 @@ class SISAdvisor:
         """
         Upload transcript PDF and generate summary.
 
-        Uses docling to convert PDF to markdown for better text extraction,
-        then summarizes the content directly.
+        Uses pdfplumber to extract text from PDF, then summarizes the content.
 
         Args:
             file_path: Path to PDF file
@@ -194,37 +194,41 @@ class SISAdvisor:
         """
         logger.info(f"Uploading transcript: {file_path.name}, session: {session_id}")
 
-        # Step 1: Convert PDF to markdown using docling
+        # Step 1: Extract text from PDF using pdfplumber
         try:
-            logger.info("Converting PDF to markdown with docling...")
-            converter = DocumentConverter()
-            result = converter.convert(str(file_path))
-            transcript_markdown = result.document.export_to_markdown()
-            logger.info(f"PDF converted to markdown, length: {len(transcript_markdown)}")
+            logger.info("Extracting text from PDF with pdfplumber...")
+            text_parts = []
+            with pdfplumber.open(str(file_path)) as pdf:
+                for page_num, page in enumerate(pdf.pages, 1):
+                    page_text = page.extract_text()
+                    if page_text and page_text.strip():
+                        text_parts.append(f"--- Page {page_num} ---\n{page_text}")
+            transcript_text = "\n\n".join(text_parts)
+            logger.info(f"PDF text extracted, length: {len(transcript_text)}")
         except Exception as e:
-            logger.exception(f"Docling conversion failed: {e}")
+            logger.exception(f"pdfplumber extraction failed: {e}")
             return {"error": f"Failed to process PDF: {str(e)}"}
 
-        # Step 2: Upload markdown to RAG for later context retrieval
+        # Step 2: Upload text to RAG for later context retrieval
         try:
             upload_result = self.client.upload_text(
-                text=transcript_markdown,
+                text=transcript_text,
                 session_id=session_id,
-                description="Student academic transcript (converted from PDF)",
+                description="Student academic transcript (extracted from PDF)",
             )
 
             if "error" in upload_result:
                 logger.warning(f"Failed to upload transcript to RAG: {upload_result['error']}")
-                # Continue anyway - we have the markdown for summarization
+                # Continue anyway - we have the text for summarization
 
         except Exception as e:
             logger.warning(f"Exception uploading transcript to RAG: {e}")
-            # Continue anyway - we have the markdown for summarization
+            # Continue anyway - we have the text for summarization
 
-        # Step 3: Generate summary by passing markdown directly to LLM
+        # Step 3: Generate summary by passing text directly to LLM
         try:
             # Truncate if extremely long (shouldn't happen with transcripts)
-            content_for_summary = transcript_markdown
+            content_for_summary = transcript_text
             if len(content_for_summary) > 50000:
                 content_for_summary = (
                     content_for_summary[:50000] + "\n\n[Content truncated...]"
