@@ -66,7 +66,7 @@ llm_mitmproxy/
 │   └── proxy_ca.key             # CA private key (for MITM)
 │
 ├── example_transcripts/         # Anonymized student transcripts for testing (AI Generated)
-│   └── transcript_GRADE.pdf     # HTTPS proxy specification
+│   └── transcript_GRADE.pdf     # Individual transcripts for multiple students (based on real tufts transcripts)
 │
 ├── Dockerfile                   # Define Docker Image
 └── docker-entrypoint.sh         # Runs servers inside docker container
