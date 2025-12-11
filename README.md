@@ -33,6 +33,10 @@ docker run -d -p 9999:9999 -p 5001:5001 \
 | `LLMPROXY_API_KEY`  | Yes      |
 | `LLMPROXY_ENDPOINT` | Yes      |
 
+## LLM Context Background
+
+https://github.com/user-attachments/assets/dce6e496-3e60-4ba5-9bbc-1e4214be4ab0
+
 ## Repo Structure
 ```bash
 llm_mitmproxy/
