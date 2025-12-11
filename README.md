@@ -30,3 +30,44 @@ docker run -d -p 9999:9999 -p 5001:5001 \
 | ------------------- | -------- |
 | `LLMPROXY_API_KEY`  | Yes      |
 | `LLMPROXY_ENDPOINT` | Yes      |
+
+## Repo Structure
+```bash
+llm_mitmproxy/
+├── Makefile                     # Build configuration
+├── src/                         # C proxy implementation
+│   ├── main.c                   # Entry point, event loop initialization
+│   ├── proxy.h                  # Core data structures (connection_t, proxy_context_t)
+│   ├── connection.c             # Connection lifecycle management
+│   ├── accepted.c               # Incoming client connection handling
+│   ├── connecting.c             # HTTPS CONNECT handling with TLS MITM
+│   ├── tunneling.c              # Bidirectional tunneling & LLM buffering
+│   ├── http.c                   # HTTP GET request handling
+│   ├── llm_client.c             # Unix socket client for Python server
+│   ├── llm_client.h             # LLM client interface
+│   └── utils.c/h                # Logging, socket utilities
+│
+├── llm_server/                  # Python backend services
+│   ├── main.py                  # Entry point (injection/chat run commands)
+│   ├── src/sis_advisor/
+│   │   ├── advisor.py           # Core SIS advisor logic with LLM interactions
+│   │   ├── injection_server.py  # Unix socket server for C proxy communication
+│   │   ├── chat_server.py       # Flask HTTP API for browser/widget
+│   │   ├── config.py            # Configuration management
+│   │   └── widget/
+│   │       ├── __init__.py
+│   │       └── bundle.py        # HTML/CSS/JS widget generator
+│   └── context/
+│       ├── course_summaries/    # Summarized Course catalog data
+│       └── cs_major_reqs.md     # CS program requirements
+│
+├── crt/                         # Certificate files
+│   ├── proxy_ca.crt             # CA certificate (installed in browser)
+│   └── proxy_ca.key             # CA private key (for MITM)
+│
+├── example_transcripts/         # Anonymized student transcripts for testing (AI Generated)
+│   └── transcript_GRADE.pdf     # HTTPS proxy specification
+│
+├── Dockerfile                   # Define Docker Image
+└── docker-entrypoint.sh         # Runs servers inside docker container
+```
