@@ -3,6 +3,8 @@
 
 Image available on [Docker Repo](https://hub.docker.com/r/bixvongoeler/llm_mitmproxy_containerized)
 
+https://github.com/user-attachments/assets/bbad990e-d925-482d-bae7-1d844135818e
+
 ## Run
 
 ```bash
