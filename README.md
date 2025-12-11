@@ -15,7 +15,7 @@ docker run -d -p 9999:9999 -p 5001:5001 \
 
 ## Browser Setup and Usage
 
-1. Set HTTP proxy to `localhost:9999`
+1. Set HTTP/HTTPS proxy to `localhost:9999` in FireFox
 2. Install `crt/proxy_ca.crt` as trusted CA (can download from https://github.com/bixvongoeler/llm_mitmproxy_containerized)
 3. Navigate to SIS Course Search Page (https://sis.it.tufts.edu/psp/paprd/EMPLOYEE/EMPL/h/?tab=TFP_CLASS_SEARCH#class_search)
 4. You may need to perform a force refresh (cmd+shift+r)
