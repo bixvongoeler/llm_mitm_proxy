@@ -1,5 +1,12 @@
 # LLM MITM Proxy
-*HTTPS proxy that injects an AI chat widget into the Tufts SIS web page*
+
+An HTTPS man-in-the-middle proxy that intercepts encrypted web traffic and injects an LLM-powered academic advisor widget into university course registration pages. The system consists of three main components:
+
+1. A C proxy server handling CONNECT tunneling and mitm TLS certificate generation (using a trusted CA).
+2. A Python injection server communicating via Unix socket that parses page HTML and injects a JavaScript widget
+3. An LLM backend using RAG-augmented GPT queries. Context managed using llm generated structed json summaries of student transcripts, scraped course catalog data, and academic policy info.
+
+The widget provides context-aware academic advising and course recommendations using parsed page content, degree requirements, academic history, and detailed course information. Containerized with Docker for portable deployment.
 
 Image available on [Docker Repo](https://hub.docker.com/r/bixvongoeler/llm_mitmproxy_containerized)
 
